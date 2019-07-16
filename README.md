@@ -168,3 +168,37 @@ MongoDB successfully connected
 </pre></code>
 Try changing the "Server up and running..." message in your file, hit save and you should see your server automatically restart.
 Congratulations! You’ve set up a server using NodeJS and Express and successfully connected to your MongoDB database.
+<h3>
+v. Setting up our database schema</h3>
+<p>Let’s create a models folder to define our user schema. Within models, create a User.js file.<p>
+<pre><code>➜ mern-auth mkdir models && cd models && touch User.js</pre></code>
+<p>Within User.js, we will<
+Pull in our required dependencies
+<li>Create a Schema to represent a User, defining fields and types as objects of the Schema</li>
+<li>Export the model so we can access it outside of this file</li><br>
+Let’s place the following in our User.js file.
+<pre><code>
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+// Create Schema
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  }
+});
+module.exports = User = mongoose.model("users", UserSchema);
+</pre></code><br>
+Pretty standard set up for what you would expect a user to have.
