@@ -1,8 +1,8 @@
-const mongoose = require('mongoose'),
-const Schema = mongoose.Schema();
+const mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
 //create a schema for the database
-const UserSchema = new Schema({
+let UserSchema = new Schema({
     name: {
         type: String,
         required: true
