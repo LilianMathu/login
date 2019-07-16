@@ -177,7 +177,7 @@ Pull in our required dependencies
 <li>Create a Schema to represent a User, defining fields and types as objects of the Schema</li>
 <li>Export the model so we can access it outside of this file</li><br>
 Let’s place the following in our User.js file.
-<pre><code>
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // Create Schema
@@ -200,5 +200,4 @@ const UserSchema = new Schema({
   }
 });
 module.exports = User = mongoose.model("users", UserSchema);
-</pre></code><br>
 Pretty standard set up for what you would expect a user to have.
