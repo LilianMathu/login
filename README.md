@@ -174,10 +174,12 @@ Congratulations! You’ve set up a server using NodeJS and Express and successfu
 v. Setting up our database schema</h3>
 <p>Let’s create a models folder to define our user schema. Within models, create a User.js file.<p>
 <pre><code>➜ mern-auth mkdir models && cd models && touch User.js</pre></code>
-<p>Within User.js, we will<
-Pull in our required dependencies
+<p>Within User.js, we will
+<ul>
+<li>Pull in our required dependencies
 <li>Create a Schema to represent a User, defining fields and types as objects of the Schema</li>
 <li>Export the model so we can access it outside of this file</li><br>
+</ul>
 Let’s place the following in our User.js file.
 <pre><code>
 const mongoose = require("mongoose");
