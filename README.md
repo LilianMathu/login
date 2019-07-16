@@ -20,7 +20,7 @@
 <li>Set up two API routes, register and login, using passport + jsonwebtokens for authentication and validator for input validation</li>
 <li>Test our API routes using Postman</li>
 <p>We’ll build our backend from scratch without boilerplate code, which I feel is more ideal for first learning about MERN apps. Before we get started
-Prerequisites
+<h3>Prerequisites</h3>
 You should have at least a basic understanding of fundamental programming concepts and some experience with introductory HTML/CSS/Javascript. If you don’t have experience with Javascript but have worked in Python, Ruby or another similar server-side language, you should still be able to follow along.
 This post is not meant to explain the MERN stack or the technologies in it, but is a good introduction to building a full-stack app with it. However, you can (and should) read more about the technologies included in the stack before getting started (Mongo, Express, React, Node).</p>
 <h2>Install</h2>
@@ -122,13 +122,15 @@ module.exports = {
 <p>
 And that’s it for this file, for now.
 <br>
-iv. Setting up our server with Node.js and Express
+<h3>iv. Setting up our server with Node.js and Express</h3>
 The basic flow for our server setup is as follows.
-Pull in our required dependencies (namely express, mongoose and bodyParser)
-Initialize our app using express()
-Apply the middleware function for bodyparser so we can use it
-Pull in our MongoURI from our keys.js file and connect to our MongoDB database
-Set the port for our server to run on and have our app listen on this port
+<ul>
+<li>Pull in our required dependencies (namely express, mongoose and bodyParser)</li>
+<li>Initialize our app using express()</li>
+<li>Apply the middleware function for bodyparser so we can use it</li>
+<li>Pull in our MongoURI from our keys.js file and connect to our MongoDB database</li>
+<li>Set the port for our server to run on and have our app listen on this port</li>
+</ul>
 Let’s place the following in our server.js file.</p>
 <pre><code>
 const express = require("express");
