@@ -497,3 +497,12 @@ Set the request type to POST
 Set the request url to http://localhost:5000/api/users/register
 Navigate to the Body tab, select x-www-form-urlencoded, fill in your registration parameters and hit Send
 You should receive a HTTP status response of 200 OK and have the new user returned as JSON.
+
+<p>Check your database on mLab and you should see a new user created with the above credentials.</p>
+<h3>Testing our Login endpoint</h3>
+<p>Similar to the above, in Postman
+Set the request type to POST
+Set the request url to http://localhost:5000/api/users/login
+Navigate to the Body tab, select x-www-form-urlencoded, fill in your login parameters and hit Send
+You should receive a HTTP status response of 200 OK and have the jwt returned in the response.</p>
+
