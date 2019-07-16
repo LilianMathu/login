@@ -214,6 +214,7 @@ vi. Setting up form validation</h3>
 <li>Convert all empty fields to an empty string before running validation checks (validator only works with strings)</li>
 <li>Check for empty fields, valid email formats, password requirements and confirm password equality using validator functions</li>
 <li>Return our errors object with any and all errors contained as well as an isValid boolean that checks to see if we have any errors</li>
+</ul>
 <br>
 <p>Let’s place the following in register.js.</p>
 <pre><code>
@@ -298,3 +299,49 @@ const validateLoginInput = require("../../validation/login");
 // Load User model
 const User = require("../../models/User");
 </pre></code>
+
+<h3>Create the Register endpoint</h3>
+<p>For our register endpoint, we will</p>
+<ul>
+<li>Pull the <pre><code>errors</pre></code> and <pre><code>isValid</pre></code> variables from our <pre><code>validateRegisterInput(req.body)</pre></code> function and check input validation</li>
+<li>If valid input, use MongoDB’s <pre><code>User.findOne()</pre></code> to see if the user already exists</li>
+<li>If user is a new user, fill in the fields (name, email, password) with data sent in the body of the request</li>
+<li>Use bcryptjs to hash the password before storing it in your database</li>
+  </ul><br>
+Let’s place the following in our users.js file for our register route.
+<pre><code>
+// @route POST api/users/register
+// @desc Register user
+// @access Public
+router.post("/register", (req, res) => {
+  // Form validation
+const { errors, isValid } = validateRegisterInput(req.body);
+// Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+User.findOne({ email: req.body.email }).then(user => {
+    if (user) {
+      return res.status(400).json({ email: "Email already exists" });
+    } else {
+      const newUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
+      });
+// Hash password before saving in database
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newUser.password, salt, (err, hash) => {
+          if (err) throw err;
+          newUser.password = hash;
+          newUser
+            .save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err));
+        });
+      });
+    }
+  });
+});
+</pre></code>
+
