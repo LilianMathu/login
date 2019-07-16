@@ -345,3 +345,151 @@ User.findOne({ email: req.body.email }).then(user => {
 });
 </pre></code>
 
+<h3>Setup passport</h3>
+<p>In your config directory, create a passport.js file.</p>
+<pre><code>➜  mern-auth cd config && touch passport.js</pre></code>
+Before we setup passport, let’s add the following to our keys.js file.
+<pre><code>
+module.exports = {
+  mongoURI: "YOUR_MONGOURI_HERE",
+  secretOrKey: "secret"
+};
+</pre></code>
+<p>Back to passport.js. You can read more about the passport-jwt strategy in the link below. It does a great job breaking down how the JWT authentication strategy is constructed, explaining required parameters, variables and functions such as options, secretOrKey, jwtFromRequest, verify, and jwt_payload.</p>
+
+<p>Let’s place the following in our passport.js file.<p>
+  <pre><code>
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const mongoose = require("mongoose");
+const User = mongoose.model("users");
+const keys = require("../config/keys");
+const opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = keys.secretOrKey;
+module.exports = passport => {
+  passport.use(
+    new JwtStrategy(opts, (jwt_payload, done) => {
+      User.findById(jwt_payload.id)
+        .then(user => {
+          if (user) {
+            return done(null, user);
+          }
+          return done(null, false);
+        })
+        .catch(err => console.log(err));
+    })
+  );
+};
+</pre></code>
+<p>Also, note that the jwt_payload will be sent via our login endpoint below.<br>
+<h3>Create the Login endpoint</h3>
+For our login endpoint, we will
+<ul>
+<li>Pull the errors and isValid variables from our validateLoginInput(req.body) function and check input validation</li>
+<li>If valid input, use MongoDB’s User.findOne() to see if the user exists</li>
+<li>If user exists, use bcryptjs to compare submitted password with hashed password in our database</li>
+<li>If passwords match, create our JWT Payload</li>
+<li>Sign our jwt, including our payload, keys.secretOrKey from keys.js, and setting a expiresIn time (in seconds)</li>
+<li>If successful, append the token to a Bearer string (remember in our passport.js file, we setopts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();)</li>
+</ul>  
+<br>
+Let’s place the following in our users.js file for our login route.
+  <pre><code>
+// @route POST api/users/login
+// @desc Login user and return JWT token
+// @access Public
+router.post("/login", (req, res) => {
+  // Form validation
+const { errors, isValid } = validateLoginInput(req.body);
+// Check validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+const email = req.body.email;
+  const password = req.body.password;
+// Find user by email
+  User.findOne({ email }).then(user => {
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ emailnotfound: "Email not found" });
+    }
+// Check password
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        // User matched
+        // Create JWT Payload
+        const payload = {
+          id: user.id,
+          name: user.name
+        };
+// Sign token
+        jwt.sign(
+          payload,
+          keys.secretOrKey,
+          {
+            expiresIn: 31556926 // 1 year in seconds
+          },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: "Bearer " + token
+            });
+          }
+        );
+      } else {
+        return res
+          .status(400)
+          .json({ passwordincorrect: "Password incorrect" });
+      }
+    });
+  });
+});
+  </pre></code>
+Don’t forget to export our router at the bottom of users.js so we can use it elsewhere.
+  <pre><code>
+module.exports = router;
+  </pre></code>
+Pulling our routes into our server.js file
+Make the following bolded additions to server.js.
+  <pre><code>
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+<strong>const passport = require("passport");
+const users = require("./routes/api/users");</strong>
+const app = express();
+// Bodyparser middleware
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
+app.use(bodyParser.json());
+// DB Config
+const db = require("./config/keys").mongoURI;
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch(err => console.log(err));
+<strong>// Passport middleware
+app.use(passport.initialize());
+// Passport config
+require("./config/passport")(passport);
+// Routes
+app.use("/api/users", users);
+</strong>
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+<br>
+<h3>viii. Testing our API routes using Postman</h3>
+<h3>Testing our Register endpoint</h3>
+Open Postman and
+Set the request type to POST
+Set the request url to http://localhost:5000/api/users/register
+Navigate to the Body tab, select x-www-form-urlencoded, fill in your registration parameters and hit Send
+You should receive a HTTP status response of 200 OK and have the new user returned as JSON.
