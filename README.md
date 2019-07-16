@@ -281,3 +281,20 @@ return {
   };
 };
 </pre></code>
+
+<h3>vii. Setting up our API routes</h3>
+<p>Now that we have validation handled, let’s create a new folder for our api routes and create a users.js file for registration and login.<p>
+<pre><code>➜ mern-auth mkdir routes && cd routes && mkdir api && cd api && touch users.js</pre></code>
+<p>At the top of users.js, let’s pull in our required dependencies and load our input validations & user model.</p>
+<pre><code>
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/keys");
+// Load input validation
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
+// Load User model
+const User = require("../../models/User");
+</pre></code>
