@@ -489,13 +489,16 @@ app.use("/api/users", users);
 </strong>
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+ </code> </pre>
 <br>
 <h3>viii. Testing our API routes using Postman</h3>
 <h3>Testing our Register endpoint</h3>
 Open Postman and
-Set the request type to POST
-Set the request url to http://localhost:5000/api/users/register
-Navigate to the Body tab, select x-www-form-urlencoded, fill in your registration parameters and hit Send
+<ul>
+<li>Set the request type to POST</li>
+<li>Set the request url to http://localhost:5000/api/users/register</li>
+<li>Navigate to the Body tab, select x-www-form-urlencoded, fill in your registration parameters and hit Send</li>
+  </ul>
 You should receive a HTTP status response of 200 OK and have the new user returned as JSON.
 
 <p>Check your database on mLab and you should see a new user created with the above credentials.</p>
