@@ -19,6 +19,7 @@
 <li>Create a database schema to define a User for registration and login purposes</li>
 <li>Set up two API routes, register and login, using passport + jsonwebtokens for authentication and validator for input validation</li>
 <li>Test our API routes using Postman</li>
+
 <p>We’ll build our backend from scratch without boilerplate code, which I feel is more ideal for first learning about MERN apps. Before we get started
 <h3>Prerequisites</h3>
 You should have at least a basic understanding of fundamental programming concepts and some experience with introductory HTML/CSS/Javascript. If you don’t have experience with Javascript but have worked in Python, Ruby or another similar server-side language, you should still be able to follow along.
