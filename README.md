@@ -11,8 +11,7 @@
     </ul>
 <p>This should be a solid base to build off for a more functional full-stack MERN app.</p>
 <p>In this part (part 1), we will
-  <ul>
-    
+  <ul>  
 <li>Initialize our backend using npm and install necessary packages</li>
 <li>Set up a MongoDB database using mLab</li>
 <li>Set up a server with Node.js and Express</li>
