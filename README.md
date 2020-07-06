@@ -1,7 +1,7 @@
 # Login
 <p>This is a simple login/Auth App with the MERN Stack.</p?
 <p>We’ll be creating a minimal full-stack login/authorization app using the MERN stack (MongoDB for our database, Express and Node for our backend, and React for our frontend). We’ll also integrate Redux for state management for our React components.</p>
-<p>Our app will allow users to
+<p>Our app will allow users to:
   <ul>
 <li>Register</li>
 <li>Log in</li>
