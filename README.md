@@ -9,6 +9,7 @@
 <li>Stay logged in when they close the app or refresh the page</li>
 <li>Log out</li>
     </ul>
+    
 <p>This should be a solid base to build off for a more functional full-stack MERN app.</p>
 <p>In this part (part 1), we will
   <ul>  
